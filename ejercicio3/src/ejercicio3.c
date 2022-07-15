@@ -17,7 +17,12 @@ pthread_mutex_t mNuevaIteracionHiloC = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc, char **argv) {
 
-	cantidad = atoi(argv[1]);
+	if (argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0)) {
+		cantidad = atoi(argv[1]);
+	} else {
+		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
+		return (-1);
+	}
 
 	pthread_t hiloA;
 	pthread_t hiloB;
