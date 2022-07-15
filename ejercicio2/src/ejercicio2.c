@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/wait.h>
+#include <string.h>
 
 int cantidad;
 int terminado;
@@ -14,12 +15,17 @@ void f_sigint(int);
 
 int main(int argc, char **argv) {
 
+	if (argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0)) {
+		cantidad = atoi(argv[1]);
+	} else {
+		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
+		return (-1);
+	}
+	
 	pid_t pid;
 	terminado = 0;
-	cantidad = atoi(argv[1]);
 
 	signal(SIGINT,(void*)f_sigint);
-	signal(SIGUSR1,(void*)f_sigint);
 
 	for(int i = 0; i < cantidad; i++) {
 		pid = fork();
