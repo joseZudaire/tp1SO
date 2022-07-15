@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 		printf("\nLa sumatoria de los resultados de cada proceso es: %i\n", sumaTotal);
 	}
 	else {
-		while(terminado == 0);
+		while(terminado == 0) { pause(); }
 	}
 
 	return getpid();
