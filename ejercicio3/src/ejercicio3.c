@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <unistd.h>
 #include <string.h>
 
-int cantidad, decremento;
+// Compilacion: gcc -Wall -o ejercicio3 ejercicio3.c -pthread
+
+int cantidad = 0;
 
 void tareaHiloA();
 void tareaHiloB();
@@ -24,6 +25,11 @@ int main(int argc, char **argv) {
 		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
 		return (-1);
 	}
+	
+	pthread_mutex_lock(&mB);
+	pthread_mutex_lock(&mC);
+	pthread_mutex_lock(&mNuevaIteracionHiloB);
+	pthread_mutex_lock(&mNuevaIteracionHiloC);
 
 	pthread_t hiloA;
 	pthread_t hiloB;
@@ -33,64 +39,49 @@ int main(int argc, char **argv) {
 	pthread_create(&hiloB, NULL, (void *) tareaHiloB, NULL);
 	pthread_create(&hiloC, NULL, (void *) tareaHiloC, NULL);
 
-	pthread_mutex_lock(&mB);
-	pthread_mutex_lock(&mC);
-	pthread_mutex_lock(&mNuevaIteracionHiloB);
-	pthread_mutex_lock(&mNuevaIteracionHiloC);
-
-	pthread_join(hiloC, NULL);
-	pthread_join(hiloB, NULL);
 	pthread_join(hiloA, NULL);
-
-	while(cantidad>0);
+	pthread_join(hiloB, NULL);
+	pthread_join(hiloC, NULL);
+	
+	printf("\n");
+	
 	return 0;
 }
 
 void tareaHiloA() {
 
 	while(cantidad > 0) {
-
 		pthread_mutex_lock(&mA);
-
-		printf("\nA");
-
+		printf("A");
 		pthread_mutex_unlock(&mB);
-
 		pthread_mutex_lock(&mA);
-		printf("\nA");
+		
+		printf("A");
 		pthread_mutex_unlock(&mC);
 		cantidad = cantidad - 1;
 		pthread_mutex_unlock(&mNuevaIteracionHiloB);
 		pthread_mutex_unlock(&mNuevaIteracionHiloC);
-
 	}
-	printf("\nSe terminó el hiloA\n");
-	pthread_exit(NULL);
 }
 
 void tareaHiloB() {
 
 	while(cantidad > 0) {
 		pthread_mutex_lock(&mB);
-		printf("\nB");
+		printf("B");
 		pthread_mutex_unlock(&mA);
 
 		pthread_mutex_lock(&mNuevaIteracionHiloB);
-
 	}
-	printf("\nSe terminó el hiloB\n");
-	pthread_exit(NULL);
 }
 
 void tareaHiloC() {
 
-	while((int) cantidad > 0) {
+	while(cantidad > 0) {
 		pthread_mutex_lock(&mC);
-		printf("\nC\n");
+		printf("C ");
 		pthread_mutex_unlock(&mA);
+		
 		pthread_mutex_lock(&mNuevaIteracionHiloC);
-
 	}
-	printf("\nSe terminó el hiloC\n");
-	pthread_exit(NULL);
 }
