@@ -4,6 +4,7 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <string.h>
 
 #define SEMA "seA"
 #define SEMB "seB"
@@ -17,7 +18,12 @@ sem_t *semC;
 
 int main(int argc, char **argv) {
 
-	cantidad = atoi(argv[1]);
+	if (argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0)) {
+		cantidad = atoi(argv[1]);
+	} else {
+		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
+		return (-1);
+	}
 
 	printf("\nSe crea proceso A\n");
 
