@@ -9,6 +9,7 @@
 #include <sys/sem.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <string.h>
 
 int cantidad;
 int terminado;
@@ -18,7 +19,12 @@ void V(int,int);
 
 int main(int argc, char **argv) {
 
-	cantidad = atoi(argv[1]);
+	if (argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0)) {
+		cantidad = atoi(argv[1]);
+	} else {
+		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
+		return (-1);
+	}
 	int semid = semget(1200,3,IPC_CREAT|IPC_EXCL|0600);
 	if(errno == EEXIST) {
 		printf("\nYa existe un conjunto de semáforos para la clave\n");
