@@ -8,6 +8,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <sys/mman.h>
+#include <string.h>
 
 int cantidad;
 
@@ -17,8 +18,12 @@ sem_t *semC;
 
 int main(int argc, char **argv) {
 
-	cantidad = 0;
-	cantidad = atoi(argv[1]);
+	if (argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0)) {
+		cantidad = atoi(argv[1]);
+	} else {
+		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
+		return (-1);
+	}
 
 	int idSemA = shm_open("/semA", O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
 	ftruncate(idSemA, sizeof(sem_t));
