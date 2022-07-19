@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <string.h>
 
 #define SEMA "seA"
 #define SEMB "seB"
@@ -19,10 +20,14 @@ sem_t *semC;
 
 int main(int argc, char **argv) {
 
-	pid_t pid;
-	cantidad = atoi(argv[1]);
+	if (argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0)) {
+		cantidad = atoi(argv[1]);
+	} else {
+		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
+		return (-1);
+	}
 
-	pid = fork();
+	pid_t pid = fork();
 	
 	if(pid == 0) {
 		//proceso B
