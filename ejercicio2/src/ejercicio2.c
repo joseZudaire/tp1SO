@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+// Compilacion: gcc -Wall -o ejercicio2 ejercicio2.c
+
 int terminado = 0;
 
 void f_sigint(int);
