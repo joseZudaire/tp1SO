@@ -10,6 +10,8 @@
 #include <sys/mman.h>
 #include <string.h>
 
+// Para compilar: gcc -Wall -o ejercicio5ProcesoA ejercicio5ProcesoA.c -pthread -lrt
+
 int cantidad;
 
 sem_t *semA;
