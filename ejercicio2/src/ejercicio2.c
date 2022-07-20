@@ -10,7 +10,7 @@
 
 int terminado = 0;
 
-void f_sigint(int);
+void f_sigint (int);
 
 int main(int argc, char **argv) {
 	int cantidad = 0;
@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
 		return (-1);
 	}
 	
-	for(int i = 0; i < cantidad; i++) {
+	for (int i = 0; i < cantidad; i++) {
 		pid = fork();
 		if (pid == 0) {
 			printf("\nProceso nuevo creado: mi PID es %i\n", getpid());
