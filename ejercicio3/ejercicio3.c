@@ -3,6 +3,8 @@
 #include <pthread.h>
 #include <string.h>
 
+// Ejercicio 3: Implementación de una sincronización de los hilos A, B y C de forma tal, que la secuencia de ejecución y acceso a su sección crítica sea la siguiente: ABAC... detener el proceso luego de N iteraciones completas (el número N se ingresa por línea de comandos). Resolver la sincronización con variables Mutex (librería pthread).
+
 // Compilacion: gcc -Wall -o ejercicio3 ejercicio3.c -pthread
 
 int cantidad = 0;
