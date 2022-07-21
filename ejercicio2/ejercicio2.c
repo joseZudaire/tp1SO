@@ -6,7 +6,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-
 // Ejercicio 2: Implementar un proceso al cual se le indique por línea de comando la cantidad de procesos a crear, todos los procesos a crear serán hermanos; cada uno de ellos retornará un valor entero distinto al proceso padre. Los procesos hijos quedan en un loop eterno, en una espera no activa, cuando recibe la señal SIGUSR1 o SIGINT el proceso hijo termina retornando un valor entero distinto al de sus hermanos. El proceso padre reportará por pantalla la sumatoria de los retornos de los procesos hijos creados. No se permitirá que existan procesos huérfanos o zombies.
 
 // Compilacion: gcc -Wall -o ejercicio2 ejercicio2.c
