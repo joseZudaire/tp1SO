@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 		char *vector[1];
 		vector[0] = argv[1];
 		vector[1] = NULL;
-		if (execvp("./ProcesoA",vector) == -1) printf("ERROR EN EXECVP PROCESO A\n");
+		if (execvp("./ejercicio4ProcesoA",vector) == -1) printf("ERROR EN EXECVP PROCESO A\n");
 	}
 		
 	// INICIALIZO PROCESO B
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 		char *vector[1];
 		vector[0] = argv[1];
 		vector[1] = NULL;
-		if (execvp("./ProcesoB",vector) == -1) printf("ERROR EN EXECVP PROCESO B\n");
+		if (execvp("./ejercicio4ProcesoB",vector) == -1) printf("ERROR EN EXECVP PROCESO B\n");
 	}
 	
 	// INICIALIZO PROCESO C
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 		char *vector[1];
 		vector[0] = argv[1];
 		vector[1] = NULL;
-		if (execvp("./ProcesoC",vector) == -1) printf("ERROR EN EXECVP PROCESO C\n");
+		if (execvp("./ejercicio4ProcesoC",vector) == -1) printf("ERROR EN EXECVP PROCESO C\n");
 	}
 	
 	while((pid = wait(0)) > 0);
