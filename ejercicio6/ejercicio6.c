@@ -4,6 +4,8 @@
 #include <string.h>
 #include <sys/wait.h>
 
+// Ejercicio 6: Idem anterior resolviendo la sincronización con semáforos SVR4.
+
 // Compilacion: gcc -Wall -o ejercicio6 ejercicio6.c
 
 int main(int argc, char *argv[]) {
