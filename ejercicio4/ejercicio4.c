@@ -4,6 +4,8 @@
 #include <string.h>
 #include <sys/wait.h>
 
+// Ejercicio 4: Implementación de una sincronización con procesos independientes A, B y C de forma tal, que la secuencia de ejecución y acceso a su sección crítica sea la siguiente: ABAC... detener el proceso luego de N iteraciones completas (el número N se ingresa por línea de comandos). Resolver la sincronización con: semáforos Posix con nombre.
+
 // Compilacion: gcc -Wall -o ejercicio4 ejercicio4.c
 
 int main(int argc, char *argv[]) {
