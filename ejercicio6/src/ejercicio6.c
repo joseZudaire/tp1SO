@@ -1,81 +1,72 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <semaphore.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
-#include <sys/wait.h>
-#include <errno.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 
-int cantidad;
-int terminado;
+// Compilacion: gcc -Wall -o ejercicio6 ejercicio6.c
 
-void P(int,int);
-void V(int,int);
+int main(int argc, char *argv[]) {
+	pid_t pid;
 
-int main(int argc, char **argv) {
-
-	if (argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0)) {
-		cantidad = atoi(argv[1]);
-	} else {
-		printf("ERROR: Se debe ingresar un solo argumento y debe ser numérico\n");
+	if (!(argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0))) {
+		printf("ERROR: SE DEBE INGRESAR UN SOLO ARGUMENTO Y DEBE SER NUMÉRICO\n");
 		return (-1);
 	}
-	int semid = semget(1200,3,IPC_CREAT|IPC_EXCL|0600);
-	if(errno == EEXIST) {
-		printf("\nYa existe un conjunto de semáforos para la clave\n");
+	
+	// INICIALIZO SEMÁFOROS
+	pid = fork();	
+	if (pid == 0) {
+		char *vector[0];
+		vector[0] = NULL;
+		if (execvp("./ejercicio6Sem_ini",vector) == -1) printf("ERROR EN EXECVP PROCESO A\n");
 	}
-	else {
-		printf("\nSemid = %d\n", semid);
+	wait(0);
+	
+	// INICIALIZO PROCESO A
+	pid = fork();	
+	if (pid == 0) {
+		char *vector[1];
+		vector[0] = argv[1];
+		vector[1] = NULL;
+		if (execvp("./ejercicio6ProcesoA",vector) == -1) printf("ERROR EN EXECVP PROCESO A\n");
 	}
-
-	semctl(semid,0,SETVAL,1);
-	semctl(semid,1,SETVAL,0);
-	semctl(semid,2,SETVAL,0);
-
-	if (semid == -1) {
-		printf("\nError semget\n");
+		
+	// INICIALIZO PROCESO B
+	pid = fork();	
+	if (pid == 0) {
+		char *vector[1];
+		vector[0] = argv[1];
+		vector[1] = NULL;
+		if (execvp("./ejercicio6ProcesoB",vector) == -1) printf("ERROR EN EXECVP PROCESO B\n");
 	}
-
-	while(cantidad > 0){
-		P(semid,0);
-		cantidad--;
-		printf("\nSección crítica del proceso A\n");
-		sleep(1);
-		V(semid,1);
-		P(semid,0);
-		printf("\nSección crítica del proceso A\n");
-		sleep(1);
-		V(semid,2);
+	
+	// INICIALIZO PROCESO C
+	pid = fork();	
+	if (pid == 0) {
+		char *vector[1];
+		vector[0] = argv[1];
+		vector[1] = NULL;
+		if (execvp("./ejercicio6ProcesoC",vector) == -1) printf("ERROR EN EXECVP PROCESO C\n");
 	}
-
-	semctl(semid,0,IPC_RMID);
-	semctl(semid,1,IPC_RMID);
-	semctl(semid,2,IPC_RMID);
-
-	exit(0);
-
+	
+		if (!(argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0))) {
+		printf("ERROR: SE DEBE INGRESAR UN SOLO ARGUMENTO Y DEBE SER NUMÉRICO\n");
+		return (-1);
+	}
+	
+	while((pid = wait(0)) > 0);
+		
+	// DESTRUYO SEMÁFOROS
+	pid = fork();	
+	if (pid == 0) {
+		char *vector[0];
+		vector[0] = NULL;
+		if (execvp("./ejercicio6Sem_del",vector) == -1) printf("ERROR EN EXECVP PROCESO A\n");
+	}
+	wait(0);
+	
+	return 0;
 }
 
-void P(int semid, int sem)
-{
-	struct sembuf buf;
-	buf.sem_num = sem;
-	buf.sem_op = -1;
-	buf.sem_flg = 0;
-	semop(semid,&buf,1);
-}
-
-void V(int semid, int sem)
-{
-	struct sembuf buf;
-	buf.sem_num = sem;
-	buf.sem_op = 1;
-	buf.sem_flg = 0;
-	semop(semid,&buf,1);
-}
 
