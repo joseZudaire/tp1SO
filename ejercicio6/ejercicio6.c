@@ -52,11 +52,6 @@ int main(int argc, char *argv[]) {
 		if (execvp("./ejercicio6ProcesoC",vector) == -1) printf("ERROR EN EXECVP PROCESO C\n");
 	}
 	
-		if (!(argc == 2 && (!strncmp(argv[1],"0",1) || atoi(argv[1]) != 0))) {
-		printf("ERROR: SE DEBE INGRESAR UN SOLO ARGUMENTO Y DEBE SER NUMÉRICO\n");
-		return (-1);
-	}
-	
 	while((pid = wait(0)) > 0);
 		
 	// DESTRUYO SEMÁFOROS
