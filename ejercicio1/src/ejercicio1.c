@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
 		}
 		else {
 			if(pid > 0) {
+				waitpid(pid,0,0);
 				printf("\nComando ejecutado\n");
 				printf("\nEscriba comando a ejecutar: \n");
 				memset(comando, '\0', 64);
