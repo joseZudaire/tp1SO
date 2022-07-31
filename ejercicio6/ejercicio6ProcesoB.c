@@ -4,9 +4,6 @@
 
 // Compilacion: gcc -Wall -o ejercicio6ProcesoB ejercicio6ProcesoB.c -I.
 
-void P(int,int);
-void V(int,int);
-
 int main(int argc, char **argv) {
 	int cantidad = 0;
 
@@ -21,11 +18,9 @@ int main(int argc, char **argv) {
 	while(cantidad > 0) {
 		P(semid,1);
 		cantidad--;
-		printf("Sección crítica del proceso B\n");
-		sleep(1);
+		printf("B\n");
 		V(semid,0);
 	}
 
 	return 0;
 }
-
