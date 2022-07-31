@@ -9,7 +9,6 @@
 
 sem_t *semA;
 sem_t *semB;
-sem_t *semC;
 
 int main(int argc, char **argv) {
 	int cantidad = 0;
@@ -21,6 +20,11 @@ int main(int argc, char **argv) {
 	
 	int idSemB = shm_open("/semB", O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
 	ftruncate(idSemB, sizeof(sem_t));
+	
+	if (idSemA == (-1) || idSemB == (-1)) {
+		printf("Error de shm_open. Verificar existencia de semáforos\n");
+		return (-1);
+	} 
 
 	semA = mmap(NULL, sizeof(sem_t), PROT_READ | PROT_WRITE, MAP_SHARED, idSemA, 0);
 	semB = mmap(NULL, sizeof(sem_t), PROT_READ | PROT_WRITE, MAP_SHARED, idSemB, 0);
@@ -34,5 +38,3 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
-
-
