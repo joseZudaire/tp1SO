@@ -86,11 +86,9 @@ void separar_argumentos(char** args, char* comando) {
 			argID++;
 		}
 	}
-
 	memcpy(args[argID], &comando[j], (64-j));
 	free(args[argID+1]);
 	args[argID+1] = NULL;
-
 }
 
 void reemplazar_enter(char* comando) {
