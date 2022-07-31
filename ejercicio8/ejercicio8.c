@@ -92,7 +92,12 @@ void sumarColumna(int nroColumna) {
 	}
 
 	for(int i = 0; i < 4; i++) {
-		T[nroColumna] = T[nroColumna] + M[i][nroColumna];
+		if(i==0) {
+			T[nroColumna] = 	M[i][nroColumna];
+		}
+		else {
+			T[nroColumna] = T[nroColumna] + M[i][nroColumna];
+		}
 	}
 
 

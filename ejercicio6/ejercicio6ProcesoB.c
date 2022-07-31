@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <operIPC.h>
+#include "operIPC.h"
 
 // Compilacion: gcc -Wall -o ejercicio6ProcesoB ejercicio6ProcesoB.c -I.
 
