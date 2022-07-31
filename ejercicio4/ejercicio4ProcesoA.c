@@ -3,7 +3,7 @@
 #include <semaphore.h>
 #include <fcntl.h>
 
-// Compilacion: gcc -Wall -o ejercicio4ProcesoA ejercicio4ProcesoA.c
+// Compilacion: gcc -Wall -o ejercicio4ProcesoA ejercicio4ProcesoA.c -pthread
 
 #define SEMA "seA"
 #define SEMB "seB"
@@ -39,5 +39,4 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
-
 
