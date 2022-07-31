@@ -8,7 +8,6 @@
 // Para compilar: gcc -Wall -o ejercicio5ProcesoC ejercicio5ProcesoC.c -pthread -lrt
 
 sem_t *semA;
-sem_t *semB;
 sem_t *semC;
 
 int main(int argc, char **argv) {
@@ -21,6 +20,11 @@ int main(int argc, char **argv) {
 	
 	int idSemC = shm_open("/semC", O_CREAT|O_RDWR, S_IRUSR|S_IWUSR);
 	ftruncate(idSemC, sizeof(sem_t));
+	
+	if (idSemA == (-1) || idSemC == (-1)) {
+		printf("Error de shm_open. Verificar existencia de semáforos\n");
+		return (-1);
+	} 
 
 	semA = mmap(NULL, sizeof(sem_t), PROT_READ | PROT_WRITE, MAP_SHARED, idSemA, 0);
 	semC = mmap(NULL, sizeof(sem_t), PROT_READ | PROT_WRITE, MAP_SHARED, idSemC, 0);
@@ -34,5 +38,3 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
-
-
