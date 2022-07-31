@@ -29,12 +29,12 @@ int main(void) {
 		printf("sem_A = 1\n");
 		printf("sem_B = 0\n");
 		printf("sem_C = 0\n\n");
-		sem_init(semA,1,1);
-		sem_init(semB,1,0);
-		sem_init(semC,1,0);
 		semA = mmap(NULL, sizeof(sem_t), PROT_READ | PROT_WRITE, MAP_SHARED, idSemA, 0);
 		semB = mmap(NULL, sizeof(sem_t), PROT_READ | PROT_WRITE, MAP_SHARED, idSemB, 0);
 		semC = mmap(NULL, sizeof(sem_t), PROT_READ | PROT_WRITE, MAP_SHARED, idSemC, 0);
+		sem_init(semA,1,1);
+		sem_init(semB,1,0);
+		sem_init(semC,1,0);
 
 	} else {
 		printf("Error de semget en la dirección 0xa. Verificar existencia de semáforos\n");
