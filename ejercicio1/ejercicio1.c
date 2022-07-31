@@ -4,6 +4,8 @@
 #include <sys/wait.h>
 #include <string.h>
 
+// Ejercicio 1: Implementación del programa Shell (en su versión más completa, que soporta procesos foreground y background; que haga uso de la señal SIGCHLD para verificar la finalización de procesos en background) que evite la existencia de procesos zombies. El programa termina cuando el usuario ingresa el comando “salir”. Si el usuario presiona CTRL+C el programa esperará a que terminen todos los procesos y luego finalizará sin dejar procesos zombies o huérfanos.
+
 // Compilacion: gcc -Wall -o ejercicio1 ejercicio1.c
 
 int salir;
