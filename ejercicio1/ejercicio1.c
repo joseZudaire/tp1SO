@@ -1,22 +1,10 @@
-/*
- ============================================================================
- Name        : ejercicio3.c
- Author      : 
- Version     :
- Copyright   :
- Description :
- ============================================================================
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
 #include <sys/wait.h>
 #include <string.h>
+
+// Compilacion: gcc -Wall -o ejercicio1 ejercicio1.c
 
 int salir;
 char comando[64];
@@ -43,23 +31,21 @@ int main(int argc, char **argv) {
 
 	salir = 1;
 
-	for(int k = 0; k < 10; k++) {
+	for (int k = 0; k < 10; k++) {
 		args[k] = malloc(sizeof(char)*64);
 		memset(args[k], '\0', 64*sizeof(char));
 	}
 
 	separar_argumentos(args, comando);
 
-	while((strcmp(comando,"salir")) && (salir==1)) {
-
+	while ((strcmp(comando,"salir")) && (salir==1)) {
 		pid = fork();
-		if(pid == 0) {
+		if (pid == 0) {
 			execv(args[0], args);
 			printf("\nComando no válido\n");
 			exit(0);
-		}
-		else {
-			if(pid > 0) {
+		} else {
+			if (pid > 0) {
 				printf("\nComando ejecutado\n");
 				printf("\nEscriba comando a ejecutar: \n");
 				memset(comando, '\0', 64);
@@ -72,32 +58,29 @@ int main(int argc, char **argv) {
 					args[k] = malloc(sizeof(char)*64);
 					memset(args[k], '\0', 64*sizeof(char));
 				}
-
 				separar_argumentos(args, comando);
-
-			}
-			else {
+			} else {
 				perror("\nError fork\n");
 			}
 		}
 	}
 
-	while((pid = wait(0)) > 0);
-	for(int i = 0; i < 10; i++) {
+	while ((pid = wait(0)) > 0);
+	
+	for (int i = 0; i < 10; i++) {
 		free(args[i]);
-	}
+	}	
 	free(args);
 
 	exit(0);
-
 }
 
 void separar_argumentos(char** args, char* comando) {
 	int argID = 0;
 	int j = 0;
 
-	for(int i = 0; i < 64; i++) {
-		if(comando[i] == ' ') {
+	for (int i = 0; i < 64; i++) {
+		if (comando[i] == ' ') {
 			memcpy(args[argID], &comando[j], (i-j)*sizeof(char));
 			j = i + 1;
 			argID++;
@@ -119,27 +102,27 @@ void reemplazar_enter(char* comando) {
 }
 
 void f_sigint(int s) {
-	printf("\nSe activó señal de interrupción\n");
 	salir = 0;
 	int totalNulos = 0;
+	
+	printf("\nSe activó señal de interrupción\n");
+	
 	for(int i = 0; i < 64; i++){
 		if(comando[i] == '\0'){
 			totalNulos++;
 		}
 	}
-	if(totalNulos == 64) {
+	if (totalNulos == 64) {
 		while((pid = wait(0)) > 0);
+		
 		for(int i = 0; i < 10; i++) {
 			free(args[i]);
 		}
 		free(args);
 		exit(0);
 	}
-
 }
 
 void f_sigchld(int s) {
 	printf("\nSe terminó el proceso hijo\n");
 }
-
-
