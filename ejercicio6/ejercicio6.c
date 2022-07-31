@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 	if (pid == 0) {
 		char *vector[0];
 		vector[0] = NULL;
-		if (execvp("./ejercicio6Sem_ini",vector) == -1) printf("ERROR EN EXECVP PROCESO A\n");
+		if (execvp("./ejercicio6Sem_ini",vector) == -1) printf("ERROR EN EXECVP INICIALIZACIÓN DE SEMÁFOROS\n");
 	}
 	wait(0);
 	
@@ -59,11 +59,9 @@ int main(int argc, char *argv[]) {
 	if (pid == 0) {
 		char *vector[0];
 		vector[0] = NULL;
-		if (execvp("./ejercicio6Sem_del",vector) == -1) printf("ERROR EN EXECVP PROCESO A\n");
+		if (execvp("./ejercicio6Sem_del",vector) == -1) printf("ERROR EN EXECVP DESTRUCCIÓN DE SEMÁFOROS\n");
 	}
 	wait(0);
 	
 	return 0;
 }
-
-
